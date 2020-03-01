@@ -57,3 +57,4 @@ lib/1.3inch-OLED-Code.7z
 lib/DFRobot_BMP388/micropython/
 lib/DFRobot_BMP388/raspbarry/
 lib/DFRobot_BMP388/examlpes/
+clock_demo/clock_demo.ino
