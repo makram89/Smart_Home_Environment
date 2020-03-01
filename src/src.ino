@@ -49,8 +49,7 @@ void loop() {
 
 
 //    TODO: notification about sensor state
-//    int chk = DHT22.read(
-//            DHT22PIN);         //checki sensor state
+    int chk = DHT22.read(DHT22PIN);         //check sensor state
 //    switch (chk) {
 //        case DHTLIB_OK:
 //            Serial.print("OK\t");
