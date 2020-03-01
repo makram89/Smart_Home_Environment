@@ -23,14 +23,14 @@
 
 dht DHT22;
 
-#define DHT22PIN 4    //przypisanie pinu 2 Arduino jako odczyt z sensora
+#define DHT22PIN 4    //set 4 as receive from sensor
 DFRobot_BMP388_I2C bmp388;
 
 uint8_t oled_buf[WIDTH * HEIGHT / 8];
 
 void setup() {
 
-    Serial.begin(9600);                    //inicjalizacja monitora szeregowego
+    Serial.begin(9600);  //init serial monitor
 
 //BMP
     bmp388.set_iic_addr(BMP3_I2C_ADDR_SEC);
@@ -42,42 +42,28 @@ void setup() {
 
     SH1106_begin();
 
-
     Serial.println("collecting data - started");
 }
 
 void loop() {
-    int chk = DHT22.read(
-            DHT22PIN);         //sprawdzenie stanu sensora, a następnie wyświetlenie komunikatu na monitorze szeregowym
-
-//    TODO powiadomienie o stanie sesora
-    Serial.print("Stan sensora: ");
-    switch (chk) {
-        case DHTLIB_OK:
-            Serial.print("OK\t");
-            break;
-        case DHTLIB_ERROR_CHECKSUM:
-            Serial.println("Błąd sumy kontrolnej");
-            break;
-        case DHTLIB_ERROR_TIMEOUT:
-            Serial.println("Koniec czasu oczekiwania - brak odpowiedzi");
-            break;
-        default:
-            Serial.println("Nieznany błąd");
-            break;
-    }
-
-//    Serial.print("\n");
-//    Serial.print("Wilgotnosc (%): ");              //wyświetlenie wartości wilgotności
-//    Serial.print((float)DHT22.humidity, 2);
-    //   Serial.print("\t\t");
-//    Serial.print("\n");
-//    Serial.print("Temperatura (C): ");           //wyświetlenie temperatury
-//    Serial.println((float)DHT22.temperature, 2);
 
 
-
-
+//    TODO: notification about sensor state
+//    int chk = DHT22.read(
+//            DHT22PIN);         //checki sensor state
+//    switch (chk) {
+//        case DHTLIB_OK:
+//            Serial.print("OK\t");
+//            break;
+//        case DHTLIB_ERROR_CHECKSUM:
+//            Serial.println("Błąd sumy kontrolnej");
+//            break;
+//        case DHTLIB_ERROR_TIMEOUT:
+//            Serial.println("Koniec czasu oczekiwania - brak odpowiedzi");
+//            break;
+//        default:
+//            break;
+//    }
 
     float temperature_f = DHT22.temperature;
     char temperature[5];
@@ -91,10 +77,6 @@ void loop() {
     float humidity_f = DHT22.humidity;
     char humidity[4];
     dtostrf(humidity_f, 3, 1, humidity);
-
-//    int seconds = Wire.read(); // get seconds
-//    int minutes = Wire.read(); // get minutes
-//    int hours = Wire.read();   // get hours
 
     SH1106_clear(oled_buf);
 // Head 1st col
@@ -117,5 +99,5 @@ void loop() {
     SH1106_display(oled_buf);
 
 
-    delay(10000);                                  //opóźnienie między kolejnymi odczytami - 10 s
+    delay(10000);                                  //delay between data read - 10 s
 }
