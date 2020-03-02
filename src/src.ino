@@ -22,11 +22,13 @@
 #define SPI_SCK    13     /* connect to the CLK pin of OLED */
 
 dht DHT22;
-
 #define DHT22PIN 4    //set 4 as receive from sensor
+
 DFRobot_BMP388_I2C bmp388;
 
+//screen
 uint8_t oled_buf[WIDTH * HEIGHT / 8];
+
 
 void setup() {
 
@@ -41,29 +43,13 @@ void setup() {
     }
 
     SH1106_begin();
-
     Serial.println("collecting data - started");
+
 }
 
 void loop() {
 
-
-//    TODO: notification about sensor state
-    int chk = DHT22.read(DHT22PIN);         //check sensor state
-//    switch (chk) {
-//        case DHTLIB_OK:
-//            Serial.print("OK\t");
-//            break;
-//        case DHTLIB_ERROR_CHECKSUM:
-//            Serial.println("Błąd sumy kontrolnej");
-//            break;
-//        case DHTLIB_ERROR_TIMEOUT:
-//            Serial.println("Koniec czasu oczekiwania - brak odpowiedzi");
-//            break;
-//        default:
-//            break;
-//    }
-
+    DHT22.read(DHT22PIN);         //read data
     float temperature_f = DHT22.temperature;
     char temperature[5];
     dtostrf(temperature_f, 4, 1, temperature);
@@ -97,6 +83,6 @@ void loop() {
 
     SH1106_display(oled_buf);
 
-
     delay(10000);                                  //delay between data read - 10 s
+
 }
